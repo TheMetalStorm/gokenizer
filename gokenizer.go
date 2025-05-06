@@ -39,8 +39,10 @@ func Tokenize(content string) []string {
 				currentToken += string(char)
 				if char == quoteChar {
 					inQuotes = false
-					tokens = append(tokens, currentToken)
-					currentToken = ""
+					if currentToken != "" {
+						tokens = append(tokens, currentToken)
+						currentToken = ""
+					}
 				}
 			}
 		} else {
@@ -108,7 +110,16 @@ func Tokenize(content string) []string {
 		tokens = append(tokens, currentToken)
 	}
 
-	return tokens
+	//TODO: dont iterate over array again, instead dont append them in the first place
+
+	var filteredTokens []string
+	for _, token := range tokens {
+		if token != "" && token != " " && token != "\n" && token != "\t" && token != "\r" {
+			filteredTokens = append(filteredTokens, token)
+		}
+	}
+
+	return filteredTokens
 }
 
 func CheckAndGetValidFile(inputFile string) []byte {

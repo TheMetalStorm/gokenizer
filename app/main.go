@@ -3,27 +3,22 @@ package main
 import (
 	"flag"
 	"fmt"
-	"strings"
 
 	"github.com/TheMetalStorm/gokenizer"
 )
 
 func main() {
 
-	var inputFile string
+	var inputFilePath string
 
-	flag.StringVar(&inputFile, "file", "", "Input file path of .go file")
+	flag.StringVar(&inputFilePath, "file", "", "Input file path of .go file")
 	flag.Parse()
 
-	file := gokenizer.CheckAndGetValidFile(inputFile)
+	file := gokenizer.CheckAndGetValidFile(inputFilePath)
 
 	tokens := gokenizer.Tokenize(string(file))
 	for _, token := range tokens {
-		trimmed := strings.TrimSpace(token)
-		if trimmed == "" {
-			continue
-		}
-		fmt.Printf("token: %v\n", trimmed) //this is also a comment
+		fmt.Printf("token: %s\n", token)
 	}
 
 }
